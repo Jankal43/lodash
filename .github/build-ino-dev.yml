@@ -1,0 +1,42 @@
+# Nazwa workflowu - np. Lint with JSLint on ino_dev
+name: Lint with JSLint on ino_dev branch
+
+# Trigger - bez zmian, nadal na push do ino_dev
+on:
+  push:
+    branches:
+      - ino_dev
+
+# Zadania
+jobs:
+  # Zmieniamy nazwę zadania na bardziej adekwatną, np. 'lint_code'
+  lint_code:
+    # Runner - bez zmian
+    runs-on: ubuntu-latest
+
+    # Kroki do wykonania
+    steps:
+      # Krok 1: Pobranie kodu - bez zmian
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Krok 2: Ustawienie Node.js - bez zmian (potrzebne do npm)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Używamy Node.js do instalacji jslint przez npm
+
+      # Krok 3: Instalacja JSLint
+      # Instalujemy jslint globalnie w środowisku runnera za pomocą npm
+      - name: Install JSLint
+        run: npm install -g jslint
+
+      # Krok 4: Uruchomienie JSLint na kodzie
+      # Uruchamiamy jslint na plikach JavaScript w głównym katalogu repozytorium
+      # Flaga --terse może zmniejszyć ilość wyjścia, --errors-only pokaże tylko błędy.
+      # Możesz eksperymentować z różnymi flagami lub ich brakiem.
+      # Uruchomienie na '*.js' przeskanuje pliki .js w głównym katalogu.
+      - name: Run JSLint on JS files
+        run: jslint *.js
+        # Opcjonalnie, aby akcja nie zakończyła się błędem, nawet jeśli jslint znajdzie problemy:
+        continue-on-error: true # Dodaj tę linię, jeśli chcesz, aby workflow przeszedł dalej mimo błędów JSLint
