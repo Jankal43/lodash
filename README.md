@@ -14,7 +14,7 @@ Zapoznałem się z dokumentacją GitHub Actions, zwracając szczególną uwagę 
 
 W celu przeprowadzenia ćwiczenia, sforkowałem repozytorium `lodash/lodash`. Praca na forku pozwala na swobodne eksperymentowanie z GitHub Actions bez wpływu na oryginalny projekt.
 
-![Sforkowane Repozytorium](1.png)
+![Sforkowane Repozytorium](screenshots/1.png)
 
 ### 3. Stworzenie gałęzi dedykowanej (`ino_dev`)
 
@@ -26,7 +26,7 @@ cd lodash
 git checkout -b ino_dev
 git push -u origin ino_dev
 ```
-![Sforkowane Repozytorium](2.png)
+![Sforkowane Repozytorium](screenshots/2.png)
 
 ### 4. Weryfikacja i Usunięcie Istniejących Workflows
 
@@ -83,7 +83,7 @@ jobs:
 
 
 
-![Workflow YAML](3.png)
+![Workflow YAML](screenshots/3.png)
 
 **Opis kroków w pliku YAML:**
 1.  `name`: Nazwa workflow, widoczna w interfejsie GitHub.
@@ -105,15 +105,15 @@ Po wykonaniu `git push`, GitHub Actions automatycznie wykryło zmiany w gałęzi
 
 *Zrzut ekranu: Lista uruchomionych workflowów w zakładce "Actions". Widoczne są dwa przebiegi akcji "add" (zgodnie z commit message) dla gałęzi `ino_dev`.*
 
-![Lista Workflowów](4.png)
+![Lista Workflowów](screenshots/4.png)
 
 *Zrzut ekranu: Podsumowanie pojedynczego przebiegu workflow. Widać status "Success", czas trwania oraz adnotację o błędzie ("1 error") pochodzącą z JSLint.*
 
-![Podsumowanie Przebiegu Workflow](5.png)
+![Podsumowanie Przebiegu Workflow](screenshots/5.png)
 
 *Zrzut ekranu: Szczegółowy log z wykonania kroku "Run JSLint on JS files". Widoczne są błędy zgłoszone przez JSLint oraz informacja "Error: Process completed with exit code 1". Pomimo tego, dzięki `continue-on-error: true`, cały krok (i zadanie) jest uznawany za pomyślny.*
 
-![Logi JSLint](6.png)
+![Logi JSLint](screenshots/6.png)
 
 Jak widać na zrzutach ekranu, akcja została poprawnie uruchomiona. JSLint wykrył błędy w plikach JavaScript znajdujących się w głównym katalogu repozytorium `lodash` (co jest oczekiwane, gdyż nie modyfikowaliśmy tych plików pod kątem JSLint, a jedynie użyliśmy ich jako przykładu do analizy). Mimo że JSLint zakończył działanie z kodem błędu (exit code 1), cały workflow został oznaczony jako zakończony sukcesem dzięki ustawieniu `continue-on-error: true`. To potwierdza, że akcja działa zgodnie z założeniami – wykonuje analizę i raportuje jej wyniki, nie przerywając przy tym dalszych potencjalnych kroków.
 
